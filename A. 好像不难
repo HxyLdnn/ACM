@@ -1,0 +1,68 @@
+/*为了不落俗套，Amanicus学姐放弃了出水题a+b的想法，她日思夜想都不知道出什么题，终于在一个月圆之夜，学姐受到伟大的葱之神的启发，出了这道应该不难题。
+给你一个数组A和一个整数k，你要在数组中找到一对数Ai和Aj(i != j),使这两个数之差等于k，并告诉学姐所有可能的数对个数，数对不同定义为Ai和Aj对应的 下标 i 和 下标 j 不完全相同。
+Input
+输入一个整数T，表示有T组输入。
+后面T组每组第一行两个正整数n(1<=n<=100000)和k，n表示数组的长度，第二行输入n个正整数A[i]，作为数组中的数。(1 <= k <= 109 , 0 <= A[i] <= 109)
+每组n之和小于500000。
+Output
+每行输出所有满足条件的数对个数。
+
+Sample Input
+2
+4 2
+1 5 2 3
+6 1
+1 4 2 6 4 5
+Sample Output
+2
+4
+Hint
+第一个样例：5-3=2，3-1=2；
+
+第二个样例：2-1=1，5-4=1，5-4=1（两个4分别为A2和A5），6-5=1；*/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+ll t;
+ll m;
+ll n,k;
+ll flag=0;
+ll F=0;
+ll sum=0;
+vector<ll> shu1,shu2;
+map<ll ,ll> yi;
+map<ll,ll> er;
+
+int main()
+{
+    ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);
+    cin >> t;
+    while(t--)
+    {
+        
+        cin >> n >> k;
+        for(ll i=0;i<=n-1;i++)
+        {
+            cin >> m;
+            if(yi[m]!=0)
+            {
+                sum+=yi[m];
+            }
+            if(er[m]!=0)
+            {
+                sum+=er[m];
+            }
+            yi[m+k]+=1;
+            er[m-k]+=1;
+        }
+        
+        cout << sum << '\n';
+        sum=0;
+        yi.clear();
+        er.clear();
+        
+    }
+    
+}
