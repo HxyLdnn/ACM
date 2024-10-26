@@ -1,0 +1,80 @@
+/*Oldwomen是一位 " power " 人 , 为了变得更强 , 他还需要至少 k 点经验来升级 ，因此他不断讨伐怪物 ，途中总共遇到了 n 只怪物 ,
+
+每只怪物都有其对应的防御力 , 假设第 i 只怪物的防御力为 a i , 则至少需要 a i  点攻击力才能击败它 , 击败后会获得相应的 b i  点经验 ,
+
+若不能击败 , Oldwomen会寻找其他目标 。现在已经知道每只怪物的情况 , 他想知道自己目前最少需要多少攻击力才能获得至少 k 点经验来升级 。
+
+Input
+第一行包括两个整数 n 和 k (1<=n<=106 , 1<=k<=1000) ，分别表示怪物数量和所需经验 。
+ 
+第二行输入 n 个整数 a i   (1<= a i  <=109 ) , 代表每只怪物的防御力 。
+ 
+接下来一行输入n个整数 b i    (0<= b i  <=1000) , 代表击败每只怪物能获得的经验值 。
+ 
+Output
+如果至少能获得 k 点经验 , 则输出一个整数 , 代表所需的最小攻击力 。否则 ， 输出 -1 。
+
+Sample Input
+3 6
+2 5 8
+3 4 5
+Sample Output
+5
+Hint
+如果不能获得至少 k 点经验 , 则输出  "-1" ,  不带引号 。*/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+ll t;
+ll m;
+ll n,k;
+ll flag=0;
+ll ffmax=-1;
+ll F=0;
+ll sum=0;
+vector<ll> f;
+vector<ll> j;
+map<ll,ll> monster;
+int main()
+{
+    ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);
+    
+    
+        cin >> n >> k;
+        for(ll i=1;i<=n;i++)
+        {
+            ll x;
+            cin >> x;
+            f.push_back(x);
+        }
+        for(ll i=1;i<=n;i++)
+        {
+            ll x;
+            cin >> x;
+            j.push_back(x);
+        }
+    
+        for(ll i=0;i<=n-1;i++)
+        {
+            monster[f[i]]+=j[i];
+        }
+        sort(f.begin(),f.end());
+        for(ll i=0;i<=n-1;i++)
+        {
+            ll h=f[i];
+            sum+=monster[h];
+            if(sum >= k)
+            {
+                cout << f[i];
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+        {
+            cout << "-1";
+        }
+    
+}
