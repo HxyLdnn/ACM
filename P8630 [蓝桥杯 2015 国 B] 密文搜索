@@ -1,0 +1,50 @@
+/*洛谷P8630*/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+ull base = 131;
+ull mod1 = 1e9 + 7;
+map<ll, ll> ha;
+const int N = 2e6 + 8;
+ll r[N];
+ll e[N];
+ll f[N];
+ull get_hash(string s)
+{
+    int len = s.size();
+    ull ans = 0;
+    for (int i = 0; i < len; i++)
+        ans = (ans * base + (s[i] - 'A' + 1));
+    return ans;
+}
+ll sum = 0;
+string a, s;
+
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    cin >> s;
+    ll lens = s.size();
+    e[0] = 1;
+    r[0] = 0;
+    for (ll i = 0; i < lens - 7; i++)
+    {
+        string u = s.substr(i, 8);
+        sort(u.begin(), u.end());
+        ha[get_hash(u)] += 1;
+    }
+    cin >> t;
+    if (lens >= 8)
+        while (t--)
+        {
+            f[0] = 0;
+            cin >> a;
+            sort(a.begin(), a.end());
+            sum += ha[get_hash(a)];
+        }
+    cout << sum << '\n';
+    return 0;
+}
