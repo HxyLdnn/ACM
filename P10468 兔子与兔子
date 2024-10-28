@@ -1,0 +1,56 @@
+/*洛谷P10468*/
+
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+ull base = 131;
+ull mod1 = 1e9 + 7;
+ull get_hash(string s)
+{
+    int len = s.size();
+    ull ans = 0;
+    for (int i = 0; i < len; i++)
+        ans = (ans * base + (s[i] - 'A' + 1)) % mod1;
+    return ans;
+}
+set<ll> ha;
+const int N = 1e6 + 8;
+ll r[1000005];
+ll e[1000005];
+ll find(int l, int q)
+{
+    return r[q] - (r[l - 1] * e[q - l + 1]);
+}
+
+
+string a, s;
+ll l1, l2, r1, r2;
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    ll ans = 0;
+    r[0] = 0;
+    e[0] = 1;
+    getline(cin, s);
+    ll len = s.size();
+    cin >> t;
+    for (ll i = 1; i <= len; i++)
+    {
+        r[i] = (r[i - 1] * base + (s[i - 1]));
+        e[i] = e[i - 1] * base;
+    }
+    while (t--)
+    {
+        cin >> l1 >> r1 >> l2 >> r2;
+        
+        if(find(l1,r1)==find(l2,r2))
+        {
+            cout << "Yes" << '\n';
+        }else{
+            cout << "No" << '\n';
+        }
+    }
+}
