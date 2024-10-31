@@ -1,0 +1,65 @@
+
+/*有一座小镇上住着许多人家，有一天他们想知道小镇的面积（由房子围起的面积）有多大，他们从地图上按逆时针顺序得到了最外围的n座房子的坐标，xi，yi（1≤i≤n），但是手动计算面积太麻烦了，所以他们想让你编程计算小镇的面积。
+
+Input
+输入首先是一个正整数t，表示t个测试实例。每个测试实例第一行输入一个正整数n（n≤1000）,接下n行，每行包含两个整数xi，yi（-106≤xi，yi≤106）
+
+Output
+对于每个测试实例，输出取整后的小镇面积，每个实例的输出占一行。
+
+Sample Input
+2
+4
+1 1
+1 -1
+-1 -1
+-1 1
+5
+0 -1
+-1 2
+0 3
+2 2
+1 0
+Sample Output
+4
+6*/
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+ll s;
+vector<ll> x, y;
+map<char, ll> arr;
+double sum = 0;
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        x.clear();
+        y.clear();
+        cin >> s;
+        for (ll i = 0; i < s; i++)
+        {
+
+            ll xx, yy;
+            cin >> xx >> yy;
+            x.push_back(xx);
+            y.push_back(yy);
+        }
+        for (ll i = 0; i < s; i++)
+        {
+            // ll inside = i;
+            ll next = (i + 1) % s;
+            sum = sum + (x[i] * y[next] - y[i] * x[next])/2.0;
+        }
+        ll a = abs(sum);
+        cout << a << '\n';
+        sum = 0;
+    }
+}
