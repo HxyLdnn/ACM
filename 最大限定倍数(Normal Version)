@@ -1,0 +1,53 @@
+/*小w定义一个数x关于n的$MLM$(最大限定倍数 $max \; limit  \; multiple$)为所有x的正整数倍数中不大于n最大的那个。
+
+例如3关于7的MLM就是6，9关于100的MLM是99。
+
+现在小w想要知道$\sum_{i=1}^{n}MLM(i)$是多少（1...n关于n的$MLM$之和）。
+
+Input
+仅一行，输入一个正整数$n(1 \leq n \leq 2 \times 10^9)$
+
+Output
+仅一个正整数表示问题的答案
+
+Sample Input
+7
+Sample Output
+41
+Hint
+1的倍数中不大于7的是7
+
+2的倍数中不大于7的是6
+
+3的倍数中不大于7的是6
+
+4的倍数中不大于7的是4
+
+5的倍数中不大于7的是5
+
+6的倍数中不大于7的是6
+
+7的倍数中不大于7的是7
+
+7+6+6+4+5+6+7=41*/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+ll s;
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    cin >> t;
+    ll sum = 0;
+    for (ll i = 1; i <= t;)
+    {
+        ll a = t / i;
+        ll j = t / a;
+        sum += a * (j - i + 1) * (i + j) / 2;
+        i = j + 1;
+    }
+    cout << sum;
+}
