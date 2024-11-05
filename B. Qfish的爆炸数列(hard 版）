@@ -1,0 +1,96 @@
+/*在不为人知的角落里，$Qfish$又想出一个损招来折磨新生，现在站在你们面前的是爆炸数列，只有通过$Qfish$的考验，你们才能继续前往下一轮考验，来不及多说了，Qfish已经给出了题意：
+$$F_n = \left\{
+144 (n=1)233 (n=2)Fn−1+Fn−2 (n≥3)
+\right.$$
+ 
+接下来$Qfish$会发出$T$次询问，每次告诉你一个n，请你回复他一个$F_n$。
+ 
+Input
+第一行输出一个$T (1 \le T \le 10^2 )$;
+ 
+接下来$T$行每行一个正整数$n（1 \le n \le 10^{12} )$
+Output
+每行输出答案并$MOD \space (10^9 + 7)$
+
+Sample Input
+3
+1
+2
+5
+Sample Output
+144
+233
+987*/
+
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+constexpr ll MOd = 1e9 + 7;
+ll sum = 0;
+ll shu[200007];
+ll flag = 0;
+vector<vector<long long>> chen(const vector<vector<long long>> &A,
+                               const vector<vector<long long>> &B)
+{
+    ll n = A.size();
+    vector<vector<long long>> C(n, vector<long long>(n, 0));
+    for (int k = 0; k < n; k++)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOd;
+            }
+        }
+    }
+    return C;
+}
+vector<vector<long long>> matixpow(vector<vector<long long>> A, long long p)
+{
+    ll n = A.size();
+    vector<vector<long long>> result(n, vector<long long>(n, 0));
+    for (int i = 0; i < n; i++)
+    {
+        result[i][i] = 1;
+    }
+    while (p)
+    {
+        if (p & 1)
+        {
+            result = chen(result, A);
+        }
+        A = chen(A, A);
+        p >>= 1;
+    }
+    return result;
+}
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t;
+    cin >> t;
+    vector<vector<ll>> e={{1,1},{1,0}};
+    vector<vector<ll>> chu={{233},{144}};
+    while (t--)
+    {
+        ll n;
+        cin >> n;
+        if(n==1)
+        {
+            cout << 144 << '\n';
+            continue;
+        }else if(n==2)
+        {
+            cout << 233 << '\n';
+            continue;
+        }
+        vector<vector<long long>> m=matixpow(e, (n - 2));
+        vector<vector<long long>> c = chen(m, chu);
+        cout << c[0][0] << '\n';
+    }
+
+    return 0;
+}
