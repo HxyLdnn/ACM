@@ -1,0 +1,95 @@
+/*链接：https://ac.nowcoder.com/acm/problem/15434
+题目描述 
+给你一个n*m的迷宫，这个迷宫中有以下几个标识：
+
+s代表起点
+
+t代表终点
+
+x代表障碍物
+
+.代表空地
+
+现在你们涵哥想知道能不能从起点走到终点不碰到障碍物（只能上下左右进行移动，并且不能移动到已经移动过的点）。
+
+输入描述:
+输入第一行一个整数T(1<=T<=10)
+接下来有T组测试数据，对于每一组测试数据，第一行输入2个数n和m(1<=n,m<=500)
+接下来n行，每行m个字符代表这个迷宫，每个字符都是上面4个中的一种
+数据保证只有一个起点和一个终点
+输出描述:
+对于每一组测试数据，如果可以的话输出YES，不可以的话输出NO
+示例1
+输入
+
+1
+3 5
+s...x
+x...x
+...tx
+输出
+
+YES*/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<ll, ll> pll;
+ll d[1003][1003];
+char g[1003][1003];
+ll dx[4] = {1, 0, -1, 0};
+ll dy[4] = {0, 1, 0, -1};
+ll m, n, u, v;
+void bfs(ll u,ll v)
+{
+    queue<pll> q;
+    memset(d, -1, sizeof(d));
+    d[u][v] = 0;
+    q.push({u, v});
+    while(q.size())
+    {
+        auto t = q.front();
+        q.pop();
+        for (ll i = 0; i < 4;i++)
+        {
+            ll x = t.first + dx[i];
+            ll y = t.second + dy[i];
+            if(x>=1 && x<=n && y>=1 && y<=m && g[x][y]!='x' && d[x][y]==-1)
+            {
+                d[x][y] = d[t.first][t.second] + 1;
+                q.push({x, y});
+                if(g[x][y]=='t')
+                {
+                    cout << "YES" << '\n';
+                    return;
+                }
+            }
+        }
+    }
+    cout << "NO" << '\n';
+}
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll T;
+    cin >> T;
+    while(T--)
+    {
+        cin >> n >> m;
+        for (ll i = 1; i <= n;i++)
+        {
+            for (ll j = 1; j <= m;j++)
+            {
+                cin >> g[i][j];
+                if(g[i][j]=='s')
+                {
+                    u = i;
+                    v = j;
+                }
+            }
+        }
+        bfs(u, v);
+    }
+    return 0;
+}
