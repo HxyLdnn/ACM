@@ -1,0 +1,80 @@
+/*有n个班级要排队每个班级有属于自己的唯一一种排队方式但班级之间可以穿插
+ 
+现在给出n个正整数a1,a2......an代表n个班级的人数（1<=n<=15）(1<=ai<=15)
+ 
+保证ai的和不会超过15
+ 
+输出符合题意的排队方式的数量
+Sample Input
+2
+3 5
+Sample Output
+56
+Hint
+例如班级1有三个人分别为1，2，3规定排序1->2->3
+班级2有5人分别为4，5，6，7，8规定排序4->5->6->7->8
+那么1->4->5->6->7->8->2->3 是符合题意的一种排序
+4->5->6->7->1->2->8->3 也是符合题意的一种排序*/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+ll flag = 0;
+ll a = -100;
+vector<ll> s;
+ll vis[100];
+ll sum = 1;
+ll sum1 = 0;
+ll t;
+ll jiec(ll x)
+{
+    ll s = 1;
+    for (; x >= 1;)
+    {
+        s = s * x;
+        x--;
+    }
+    return s;
+}
+ll C(ll a, ll b)
+{
+    ll su = 1;
+    for (ll i = 0; i < b; i++)
+    {
+        su = su * a;
+        a -= 1;
+    }
+    su = su / jiec(b);
+    return su;
+}
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll n;
+    cin >> n;
+    for (ll i = 1; i <= n; i++)
+    {
+        ll x;
+        cin >> x;
+        if (flag == 0)
+        {
+            flag = 1;
+            t = x;
+            continue;
+        }
+        else
+        {
+            ll p = max(t, x);
+            ll q = t + x - p;
+            for (ll j = 1; j <= q; j++)
+            {
+                sum1 = sum1 + C(p + 1, j) * (q % j + 1);
+            }
+            t = t + x;
+            sum = sum * sum1;
+            sum1 = 0;
+        }
+    }
+    cout << sum;
+}
