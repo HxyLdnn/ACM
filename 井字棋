@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<double, double> pdd;
+
+const int N = 3;
+
+bool c(const vector<vector<char>> &board, char player)
+{
+    for (int i = 0; i < N; ++i)
+    {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+            return true;
+    }
+    for (int j = 0; j < N; ++j)
+    {
+        if (board[0][j] == player && board[1][j] == player && board[2][j] == player)
+            return true;
+    }
+    if (board[0][0] == player && board[1][1] == player && board[2][2] == player)
+        return true;
+    if (board[0][2] == player && board[1][1] == player && board[2][0] == player)
+        return true;
+
+    return false;
+}
+
+
+bool dfs(vector<vector<char>> &board, bool flag)
+{
+    if (c(board, 'O'))
+        return true;
+    if (c(board, 'X'))
+        return false;
+    bool F = true;
+    for (int i = 0; i < N; ++i)
+    {
+        for (int j = 0; j < N; ++j)
+        {
+            if (board[i][j] == '.')
+            {
+                F = false;
+                break;
+            }
+        }
+        if (!F)
+            break;
+    }
+    if (F)
+        return false;
+    for (ll i = 0; i < N; i++)
+    {
+        for (ll j = 0; j < N; j++)
+        {
+            if (board[i][j] == '.' && flag)
+            {
+                board[i][j] = 'O';
+                bool result = dfs(board, !flag);
+                board[i][j] = '.';
+                if (flag && result)
+                    return true;
+                else if (!flag && !result)
+                    return false;
+            }
+            else if (board[i][j] == '.' && !flag)
+            {
+                board[i][j] = 'X';
+                bool result = dfs(board, !flag);
+                board[i][j] = '.';
+                if (flag && result)
+                    return true;
+                else if (!flag && !result)
+                    return false;
+            }
+        }
+    }
+    return flag ? false : true;
+}
+int main()
+{
+    
+
+    int x1, y1, x2, y2, x3, y3, x4, y4;
+    while(cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3 >> x4 >> y4)
+    {
+        vector<vector<char>> board(N, vector<char>(N, '.'));
+        board[x1 - 1][y1 - 1] = 'O';
+        board[x2 - 1][y2 - 1] = 'O';
+
+        board[x3 - 1][y3 - 1] = 'X';
+        board[x4 - 1][y4 - 1] = 'X';
+
+        if (dfs(board, true))
+        {
+            cout << "YES" << endl;
+        }
+        else
+        {
+            cout << "NO" << endl;
+        }
+    }
+    return 0;
+}
