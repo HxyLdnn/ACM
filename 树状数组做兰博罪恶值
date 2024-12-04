@@ -1,0 +1,83 @@
+/*A. 第一个水题
+同学们这真的是一道水题，直接暴力就好了
+ 
+你们的clearlove13学长非常喜欢玩LOL，LOL里面有一个英雄叫做兰博，他有一个非常经典的金句:"你说谁是小个子"。
+因此，兰博对身高比他高的人的非常厌恶，他会偷偷记下站在他后面身高却比他高的高个子兰博，哼哼，但是你们的clearlove13学长就是喜欢折磨兰博，于是他让各位兰博随机站在一列，每个小兰博心中都会记下让他们厌恶的人，于是更恶心人的来了，他要问每个兰博的厌恶值是多少，并把他们加起来公布于众
+ 
+你作为clearlove13的小跟班，你能帮帮clearlove13吗，请你尽你所能快的将厌恶值之和计算出来。
+Input
+第一行包含一个整数 t ( 1≤t≤500000 ) - 表示有多少个兰博。
+ 
+第二行包含t个整数,每个整数k ( 1≤k≤109 )。
+ 
+Output
+输出一个整数，表示所有兰博的厌恶值之和
+
+Sample Input
+6
+1 2 3 4 5 6
+Sample Output
+15
+Hint
+第一个厌恶值为5
+
+第二个厌恶值为4
+
+第三个厌恶值为3
+
+以此类推。。。就得出15了*/
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using db = double;
+const ll N = 1e6 + 5;
+typedef pair<ll, ll> PLL;
+#define fi first
+#define se second
+ll a[N], tree[N];
+ll t, n, ans = 0;
+
+ll lowbit(ll x)
+{
+    return x & (-x);
+}
+void add(ll x, ll v)//单点修改
+{
+    for (ll i = x; i <= n; i += lowbit(i))
+        tree[i] = (tree[i] + v);
+}
+ll ask(int pos) // 返回区间pos到1的总和
+{
+    ll ans = 0;
+    for (int i = pos; i; i -= lowbit(i))
+        ans += tree[i];
+    return ans;
+}
+struct node
+{
+    ll w, p;
+} b[N];
+bool cmp(node q, node z)
+{
+    if (q.w == z.w)
+        return q.p > z.p;
+    return q.w < z.w;
+}
+int main()
+{
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    cin >> n;
+    for (ll i = 1; i <= n; i++)
+    {
+        cin >> a[i];
+        b[i].w = a[i];
+        b[i].p = i;
+    }
+    sort(b + 1, b + 1 + n, cmp);
+    for (ll i = 1; i <= n; i++)
+    {
+        add(b[i].p, 1);
+        ans += ask(b[i].p) - 1;
+    }
+    cout << ans << '\n';
+}
